@@ -559,6 +559,18 @@ section {
     animation-delay: 0.6s;
 }
 
+.project-card:nth-child(5) {
+    animation-delay: 0.8s;
+}
+
+.project-card:nth-child(6) {
+    animation-delay: 1.0s;
+}
+
+.project-card:nth-child(7) {
+    animation-delay: 1.2s;
+}
+
 /* Estilos especiales para la tarjeta de la impresora */
 .printer-project-card {
     border: 2px solid #e74c3c;
@@ -625,6 +637,12 @@ section {
     50% { transform: translateY(-10px); }
 }
 
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
 .printer-text {
     font-size: 1.2rem;
     font-weight: 600;
@@ -656,6 +674,135 @@ section {
     background: linear-gradient(145deg, #c0392b, #a93226);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+/* Estilos para HRASOFT */
+.hrasoft-project-card {
+    border: 2px solid #f59e0b;
+    position: relative;
+    overflow: hidden;
+}
+
+.hrasoft-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    position: relative;
+}
+
+.hrasoft-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    animation: bounce 2s infinite;
+}
+
+.hrasoft-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hrasoft-btn {
+    background: linear-gradient(45deg, #f59e0b, #d97706);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.hrasoft-btn:hover {
+    background: linear-gradient(45deg, #d97706, #b45309);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+}
+
+/* Estilos para Laravel API */
+.laravel-project-card {
+    border: 2px solid #ef4444;
+    position: relative;
+    overflow: hidden;
+}
+
+.laravel-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    position: relative;
+}
+
+.laravel-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    animation: pulse 2s infinite;
+}
+
+.laravel-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.laravel-btn {
+    background: linear-gradient(45deg, #ef4444, #dc2626);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.laravel-btn:hover {
+    background: linear-gradient(45deg, #dc2626, #b91c1c);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+}
+
+/* Estilos para PHP Backend */
+.php-project-card {
+    border: 2px solid #8b5cf6;
+    position: relative;
+    overflow: hidden;
+}
+
+.php-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    position: relative;
+}
+
+.php-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    animation: shake 2s infinite;
+}
+
+.php-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.php-btn {
+    background: linear-gradient(45deg, #8b5cf6, #7c3aed);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.php-btn:hover {
+    background: linear-gradient(45deg, #7c3aed, #6d28d9);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
 }
 
 .printer-btn i {
