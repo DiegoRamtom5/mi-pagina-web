@@ -125,8 +125,13 @@
 
     <!-- Scripts -->
     <script src="js/messages.js"></script>
-    <script src="js/github-sync.js"></script>
     <script src="js/printer.js"></script>
+    <script>
+        // Inicializar la impresora cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            new LightningMcQueenPrinter();
+        });
+    </script>
 
 </body>
 </html>

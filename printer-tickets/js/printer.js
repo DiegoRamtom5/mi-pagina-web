@@ -5,7 +5,6 @@ class LightningMcQueenPrinter {
         this.isPrinting = false;
         this.particles = [];
         this.isMobile = window.innerWidth <= 768;
-        this.githubSync = null;
         this.init();
     }
 
@@ -181,9 +180,6 @@ class LightningMcQueenPrinter {
         // Crear el ticket
         this.createTicketElement(ticket);
 
-        // Guardar en GitHub si está disponible
-        await this.saveTicketToGitHub(ticket);
-
         // Efectos finales
         this.playTicketSound();
         this.createLightningEffect();
@@ -306,18 +302,7 @@ class LightningMcQueenPrinter {
         }, 3300);
     }
 
-    // Configurar GitHub Sync
-    setGitHubSync(githubSync) {
-        this.githubSync = githubSync;
-    }
 
-    // Guardar ticket en GitHub si está disponible
-    async saveTicketToGitHub(ticket) {
-        if (this.githubSync && this.githubSync.isAuthenticated) {
-            return await this.githubSync.saveTicket(ticket);
-        }
-        return false;
-    }
 
     setupResponsiveHandlers() {
         // Detectar cambios en el tamaño de pantalla
