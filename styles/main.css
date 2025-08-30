@@ -60,6 +60,34 @@ body {
     overflow-x: hidden;
 }
 
+/* Asegurar que el header mantenga su color en todos los navegadores */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Prevenir que el navegador cambie el color del header */
+.header,
+.header * {
+    background-color: transparent !important;
+}
+
+.header {
+    background: rgba(17, 24, 39, 0.95) !important;
+}
+
+/* Estilos específicos para prevenir el cambio de color del header */
+.header.scrolled {
+    background: rgba(17, 24, 39, 0.95) !important;
+}
+
+/* Asegurar que el header mantenga su color en Safari y otros navegadores */
+@supports (-webkit-backdrop-filter: blur(10px)) {
+    .header {
+        background: rgba(17, 24, 39, 0.95) !important;
+        -webkit-backdrop-filter: blur(10px);
+    }
+}
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -72,11 +100,23 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(17, 24, 39, 0.95);
+    background: rgba(17, 24, 39, 0.95) !important;
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     z-index: 1000;
     transition: all 0.3s ease;
+}
+
+/* Asegurar que el header mantenga su color al hacer scroll */
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(17, 24, 39, 0.95);
+    z-index: -1;
 }
 
 .nav {
