@@ -676,6 +676,152 @@ body {
     }
 }
 
+/* Estilos para el ticket emergente desde la impresora */
+.ticket-emerging {
+    background: linear-gradient(135deg, #fff, #f8f9fa);
+    border: 2px solid var(--lightning-red);
+    border-radius: 15px;
+    padding: 1.5rem;
+    color: #2c3e50;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    transition: all 0.3s ease;
+    animation: ticket-emerge 1.8s ease-out;
+}
+
+@keyframes ticket-emerge {
+    0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+        clip-path: inset(0% 0 100% 0);
+    }
+    20% {
+        transform: translateY(0) scale(0.85);
+        opacity: 0.2;
+        clip-path: inset(0% 0 80% 0);
+    }
+    40% {
+        transform: translateY(0) scale(0.9);
+        opacity: 0.4;
+        clip-path: inset(0% 0 60% 0);
+    }
+    60% {
+        transform: translateY(0) scale(0.95);
+        opacity: 0.6;
+        clip-path: inset(0% 0 40% 0);
+    }
+    80% {
+        transform: translateY(0) scale(0.98);
+        opacity: 0.8;
+        clip-path: inset(0% 0 20% 0);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+        clip-path: inset(0% 0 0% 0);
+    }
+}
+
+.ticket-emerging .ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--lightning-red);
+}
+
+.ticket-emerging .ticket-number {
+    font-weight: 700;
+    color: var(--lightning-red);
+    font-size: 1.1rem;
+}
+
+.ticket-emerging .ticket-date {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.ticket-emerging .ticket-content {
+    margin-bottom: 1rem;
+}
+
+.ticket-emerging .ticket-message {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.ticket-emerging .ticket-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+.ticket-emerging .ticket-signature {
+    font-style: italic;
+    color: var(--lightning-red);
+    font-weight: 600;
+}
+
+.ticket-emerging .ticket-decoration {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    opacity: 0.3;
+}
+
+.ticket-emerging .ticket-decoration-image {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    opacity: 0.4;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+    transition: all 0.3s ease;
+}
+
+/* Efecto de brillo en la abertura de la impresora */
+@keyframes slot-glow {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+/* Animación para el indicador de scroll en móviles */
+@keyframes fadeInOut {
+    0% { 
+        opacity: 0; 
+        transform: translateX(-50%) translateY(-20px); 
+    }
+    20% { 
+        opacity: 1; 
+        transform: translateX(-50%) translateY(0); 
+    }
+    80% { 
+        opacity: 1; 
+        transform: translateX(-50%) translateY(0); 
+    }
+    100% { 
+        opacity: 0; 
+        transform: translateX(-50%) translateY(-20px); 
+    }
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .printer-container {

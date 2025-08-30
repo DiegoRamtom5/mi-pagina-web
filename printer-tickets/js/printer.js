@@ -4,6 +4,7 @@ class LightningMcQueenPrinter {
         this.ticketCounter = 0;
         this.isPrinting = false;
         this.particles = [];
+        this.isMobile = window.innerWidth <= 768;
         this.init();
     }
 
@@ -12,6 +13,7 @@ class LightningMcQueenPrinter {
         this.createParticles();
         this.hideWelcomeMessage();
         this.setupAudio();
+        this.setupResponsiveHandlers();
     }
 
     setupEventListeners() {
@@ -89,11 +91,17 @@ class LightningMcQueenPrinter {
     }
 
     createPrintSound() {
-        // Sonido de impresión - beep agudo
-        this.createBeepSound(1200, 150, 'square');
+        // Sonido de impresión - simula el ruido de una impresora
+        this.createBeepSound(800, 200, 'sawtooth');
         setTimeout(() => {
-            this.createBeepSound(800, 100, 'sine');
-        }, 50);
+            this.createBeepSound(600, 150, 'square');
+        }, 100);
+        setTimeout(() => {
+            this.createBeepSound(1000, 100, 'sine');
+        }, 200);
+        setTimeout(() => {
+            this.createBeepSound(400, 300, 'sawtooth');
+        }, 400);
     }
 
     createTicketSound() {
@@ -183,9 +191,14 @@ class LightningMcQueenPrinter {
     }
 
     createTicketElement(ticket) {
-        const ticketsStack = document.getElementById('ticketsStack');
+        // Crear el ticket temporalmente en la abertura de la impresora
+        this.createTicketFromPrinter(ticket);
+    }
+
+    createTicketFromPrinter(ticket) {
+        const ticketSlot = document.querySelector('.ticket-slot');
         const ticketElement = document.createElement('div');
-        ticketElement.className = 'ticket ticket-printing';
+        ticketElement.className = 'ticket-emerging';
 
         const ticketNumber = this.ticketCounter.toString().padStart(3, '0');
         const currentDate = new Date().toLocaleDateString('es-ES', {
@@ -219,19 +232,147 @@ class LightningMcQueenPrinter {
             </div>
         `;
 
-        // Añadir al stack
-        ticketsStack.insertBefore(ticketElement, ticketsStack.firstChild);
+        // Posicionar el ticket en la abertura de la impresora
+        const slotRect = ticketSlot.getBoundingClientRect();
+        
+        ticketElement.style.position = 'fixed';
+        ticketElement.style.left = slotRect.left + 'px';
+        ticketElement.style.top = slotRect.top + 'px';
+        ticketElement.style.width = slotRect.width + 'px';
+        ticketElement.style.zIndex = '1000';
+        ticketElement.style.transform = 'translateY(0) scale(0.8)';
+        ticketElement.style.opacity = '0';
+        ticketElement.style.overflow = 'hidden';
 
-        // Efecto de entrada
-        setTimeout(() => {
-            ticketElement.style.transform = 'translateX(0)';
-            ticketElement.style.opacity = '1';
-        }, 100);
+        document.body.appendChild(ticketElement);
 
-        // Scroll hacia el nuevo ticket
+        // Efecto de brillo en la abertura
+        this.createSlotGlow();
+        
+        // Crear partículas que salgan de la abertura
+        this.createSlotParticles();
+
+        // La animación CSS se encarga de la emergencia del ticket
+
+        // Mover el ticket hacia la sección de tickets después de que salga completamente
         setTimeout(() => {
-            ticketElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 500);
+            const ticketsStack = document.getElementById('ticketsStack');
+            const targetRect = ticketsStack.getBoundingClientRect();
+            
+            // Crear efecto de estela durante el vuelo
+            this.createFlightTrail(ticketElement);
+            
+            // Añadir efecto de vuelo más visible
+            ticketElement.style.transition = 'all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            ticketElement.style.left = targetRect.left + 'px';
+            ticketElement.style.top = targetRect.top + 'px';
+            ticketElement.style.transform = 'translateY(0) scale(0.9)';
+            ticketElement.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
+            ticketElement.style.zIndex = '1001';
+            
+            // Efecto de rotación durante el vuelo
+            setTimeout(() => {
+                ticketElement.style.transform = 'translateY(-10px) scale(0.95) rotate(2deg)';
+            }, 300);
+            
+            setTimeout(() => {
+                ticketElement.style.transform = 'translateY(0) scale(0.9) rotate(0deg)';
+            }, 1200);
+        }, 1800);
+
+        // Finalizar la animación y añadir al stack
+        setTimeout(() => {
+            ticketElement.style.position = 'static';
+            ticketElement.style.width = '';
+            ticketElement.style.left = '';
+            ticketElement.style.top = '';
+            ticketElement.style.transform = '';
+            ticketElement.style.transition = '';
+            ticketElement.style.overflow = '';
+            ticketElement.style.boxShadow = '';
+            ticketElement.className = 'ticket';
+            
+            const ticketsStack = document.getElementById('ticketsStack');
+            ticketsStack.insertBefore(ticketElement, ticketsStack.firstChild);
+            
+            // Scroll hacia el nuevo ticket
+            setTimeout(() => {
+                this.scrollToTicket(ticketElement);
+            }, 100);
+        }, 3300);
+    }
+
+    setupResponsiveHandlers() {
+        // Detectar cambios en el tamaño de pantalla
+        window.addEventListener('resize', () => {
+            this.isMobile = window.innerWidth <= 768;
+        });
+    }
+
+    scrollToTicket(ticketElement) {
+        // En móviles, hacer scroll hacia la sección de tickets
+        if (this.isMobile) {
+            const ticketsSection = document.getElementById('ticketsStack');
+            if (ticketsSection) {
+                // Crear indicador visual de scroll en móviles
+                this.createScrollIndicator();
+                
+                // Scroll suave hacia la sección de tickets
+                ticketsSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start',
+                    inline: 'nearest'
+                });
+                
+                // Añadir un pequeño delay para asegurar que el scroll se complete
+                setTimeout(() => {
+                    // Scroll adicional hacia el ticket específico si es necesario
+                    ticketElement.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'nearest',
+                        inline: 'nearest'
+                    });
+                    
+                    // Remover el indicador después del scroll
+                    this.removeScrollIndicator();
+                }, 800);
+            }
+        } else {
+            // En desktop, scroll hacia el ticket específico
+            ticketElement.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+        }
+    }
+
+    createScrollIndicator() {
+        // Crear indicador visual para móviles
+        const indicator = document.createElement('div');
+        indicator.id = 'scroll-indicator';
+        indicator.style.position = 'fixed';
+        indicator.style.top = '20px';
+        indicator.style.left = '50%';
+        indicator.style.transform = 'translateX(-50%)';
+        indicator.style.background = 'rgba(231, 76, 60, 0.9)';
+        indicator.style.color = 'white';
+        indicator.style.padding = '10px 20px';
+        indicator.style.borderRadius = '25px';
+        indicator.style.fontSize = '14px';
+        indicator.style.fontWeight = 'bold';
+        indicator.style.zIndex = '9999';
+        indicator.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+        indicator.style.animation = 'fadeInOut 2s ease-in-out';
+        indicator.innerHTML = '📱 Desplazándose a los tickets...';
+        
+        document.body.appendChild(indicator);
+    }
+
+    removeScrollIndicator() {
+        const indicator = document.getElementById('scroll-indicator');
+        if (indicator) {
+            indicator.remove();
+        }
     }
 
     createPrintingEffects() {
@@ -288,6 +429,102 @@ class LightningMcQueenPrinter {
         const progressContainer = document.querySelector('.progress-container');
         if (progressContainer) {
             progressContainer.remove();
+        }
+    }
+
+    createSlotGlow() {
+        const ticketSlot = document.querySelector('.ticket-slot');
+        const slotGlow = document.createElement('div');
+        slotGlow.className = 'slot-glow';
+        slotGlow.style.position = 'absolute';
+        slotGlow.style.top = '0';
+        slotGlow.style.left = '0';
+        slotGlow.style.width = '100%';
+        slotGlow.style.height = '100%';
+        slotGlow.style.background = 'linear-gradient(45deg, transparent, rgba(241, 196, 15, 0.6), transparent)';
+        slotGlow.style.animation = 'slot-glow 1s ease-out';
+        slotGlow.style.pointerEvents = 'none';
+        slotGlow.style.borderRadius = '10px';
+
+        ticketSlot.appendChild(slotGlow);
+
+        setTimeout(() => {
+            if (slotGlow.parentNode) {
+                slotGlow.parentNode.removeChild(slotGlow);
+            }
+        }, 1000);
+    }
+
+    createSlotParticles() {
+        const ticketSlot = document.querySelector('.ticket-slot');
+        const slotRect = ticketSlot.getBoundingClientRect();
+        
+        // Crear múltiples partículas que salgan de la abertura
+        for (let i = 0; i < 8; i++) {
+            setTimeout(() => {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.left = (slotRect.left + slotRect.width / 2) + 'px';
+                particle.style.top = (slotRect.top + slotRect.height / 2) + 'px';
+                particle.style.width = '3px';
+                particle.style.height = '3px';
+                particle.style.background = '#f1c40f';
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '999';
+                particle.style.boxShadow = '0 0 6px #f1c40f';
+                
+                document.body.appendChild(particle);
+                
+                // Animar la partícula
+                const angle = (Math.PI * 2 * i) / 8;
+                const distance = 30 + Math.random() * 20;
+                const endX = slotRect.left + slotRect.width / 2 + Math.cos(angle) * distance;
+                const endY = slotRect.top + slotRect.height / 2 + Math.sin(angle) * distance;
+                
+                particle.style.transition = 'all 0.8s ease-out';
+                particle.style.left = endX + 'px';
+                particle.style.top = endY + 'px';
+                particle.style.opacity = '0';
+                particle.style.transform = 'scale(0)';
+                
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 800);
+            }, i * 100);
+        }
+    }
+
+    createFlightTrail(ticketElement) {
+        // Crear estela de partículas durante el vuelo
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                const trail = document.createElement('div');
+                trail.style.position = 'fixed';
+                trail.style.left = ticketElement.style.left;
+                trail.style.top = ticketElement.style.top;
+                trail.style.width = '4px';
+                trail.style.height = '4px';
+                trail.style.background = 'rgba(231, 76, 60, 0.6)';
+                trail.style.borderRadius = '50%';
+                trail.style.pointerEvents = 'none';
+                trail.style.zIndex = '1000';
+                trail.style.boxShadow = '0 0 8px rgba(231, 76, 60, 0.8)';
+                
+                document.body.appendChild(trail);
+                
+                trail.style.transition = 'all 1s ease-out';
+                trail.style.opacity = '0';
+                trail.style.transform = 'scale(0) translateY(20px)';
+                
+                setTimeout(() => {
+                    if (trail.parentNode) {
+                        trail.parentNode.removeChild(trail);
+                    }
+                }, 1000);
+            }, i * 200);
         }
     }
 
