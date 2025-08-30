@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏁 Impresora de Amor - Rayo McQueen 🏁</title>
+    <link rel="stylesheet" href="css/printer.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header con navegación -->
+    <header class="printer-header">
+        <nav class="printer-nav">
+            <div class="nav-brand">
+                <div class="brand-content">
+                    <img src="img/logoMcQueen.png" alt="Rayo McQueen Logo" class="brand-logo">
+                    <div class="brand-text">
+                        <h1>🏁 Impresora de Amor 🏁</h1>
+                        <p>Mensajes especiales de Rayo McQueen</p>
+                    </div>
+                </div>
+            </div>
+            <a href="../index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Volver al sitio principal
+            </a>
+        </nav>
+    </header>
+
+    <!-- Contenedor principal -->
+    <main class="printer-container">
+        <!-- Sección de la impresora -->
+        <section class="printer-section">
+            <div class="printer-machine">
+                <!-- Pantalla de la impresora -->
+                <div class="printer-screen">
+                    <div class="screen-content">
+                        <div class="screen-header">
+                            <div class="screen-logo">
+                                <img src="img/95img.png" alt="Número 95" class="number-95">
+                            </div>
+                            <h2>🏁 RAYO MCQUEEN 🏁</h2>
+                            <p>Impresora de Mensajes de Amor</p>
+                        </div>
+                        <div class="screen-status">
+                            <span class="status-indicator" id="statusIndicator">● Listo</span>
+                        </div>
+                        <div class="screen-counter">
+                            <span>Tickets impresos: <strong id="ticketCounter">0</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón de impresión -->
+                <div class="printer-button-container">
+                    <button class="printer-button" id="printButton">
+                        <div class="button-content">
+                            <i class="fas fa-print"></i>
+                            <span>IMPRIMIR TICKET</span>
+                        </div>
+                        <div class="button-glow"></div>
+                    </button>
+                </div>
+
+                <!-- Salida de tickets -->
+                <div class="ticket-output">
+                    <div class="ticket-slot">
+                        <div class="ticket-slot-opening"></div>
+                    </div>
+                </div>
+
+                <!-- Detalles de la impresora -->
+                <div class="printer-details">
+                    <div class="detail-item">
+                        <img src="img/copapiston.png" alt="Copa Piston" class="detail-icon">
+                        <span>100% Amor</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>Velocidad Rayo</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-star"></i>
+                        <span>Calidad Premium</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Área de tickets impresos -->
+        <section class="tickets-section">
+            <div class="tickets-container" id="ticketsContainer">
+                <div class="tickets-header">
+                    <h3>🎫 Tickets de Amor Impresos 🎫</h3>
+                    <button class="clear-btn" id="clearButton">
+                        <i class="fas fa-trash"></i> Limpiar
+                    </button>
+                </div>
+                <div class="tickets-stack" id="ticketsStack">
+                    <!-- Los tickets aparecerán aquí -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Mensaje de bienvenida -->
+        <div class="welcome-message" id="welcomeMessage">
+            <div class="welcome-content">
+                <h2>¡Bienvenido a la Impresora de Amor! 🏁</h2>
+                <p>Haz clic en el botón de imprimir para recibir mensajes especiales de Rayo McQueen</p>
+                <p>¡Cada ticket contiene un mensaje único lleno de amor y velocidad! 💕</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Efectos de partículas -->
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <!-- Audio para efectos sonoros -->
+    <audio id="printSound" preload="auto">
+        <source src="assets/sounds/print.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="ticketSound" preload="auto">
+        <source src="assets/sounds/ticket.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
+    <script src="js/messages.js"></script>
+    <script src="js/printer.js"></script>
+</body>
+</html>

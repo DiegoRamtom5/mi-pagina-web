@@ -72,7 +72,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(17, 24, 39, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     z-index: 1000;
@@ -513,4 +513,111 @@ section {
 
 .project-card:nth-child(3) {
     animation-delay: 0.4s;
+}
+
+.project-card:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+/* Estilos especiales para la tarjeta de la impresora */
+.printer-project-card {
+    border: 2px solid #e74c3c;
+    position: relative;
+    overflow: hidden;
+}
+
+.printer-project-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #e74c3c, #f1c40f, #3498db, #e67e22);
+    border-radius: var(--border-radius-lg);
+    z-index: -1;
+    animation: border-rainbow 3s ease-in-out infinite;
+}
+
+@keyframes border-rainbow {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+.printer-preview {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.printer-preview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(241, 196, 15, 0.3), transparent);
+    animation: shine 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+.printer-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.printer-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #f1c40f;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.project-link {
+    text-decoration: none;
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+.printer-btn {
+    background: linear-gradient(145deg, #e74c3c, #c0392b);
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.printer-btn:hover {
+    background: linear-gradient(145deg, #c0392b, #a93226);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.printer-btn i {
+    font-size: 1.1rem;
 }
