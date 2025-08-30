@@ -285,6 +285,41 @@ body {
     font-size: 1.1rem;
 }
 
+/* Barra de progreso */
+.progress-container {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 10;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--lightning-red), var(--lightning-yellow));
+    width: 0%;
+    transition: width 2.4s ease-in-out;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+}
+
+.progress-text {
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    text-align: center;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
 /* Botón de impresión */
 .printer-button-container {
     display: flex;
@@ -606,13 +641,20 @@ body {
 
 /* Animaciones de impresión */
 .printing {
-    animation: print-shake 0.5s ease-in-out;
+    animation: print-shake 2.5s ease-in-out;
 }
 
 @keyframes print-shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+    10% { transform: translateX(-3px); }
+    20% { transform: translateX(3px); }
+    30% { transform: translateX(-2px); }
+    40% { transform: translateX(2px); }
+    50% { transform: translateX(-1px); }
+    60% { transform: translateX(1px); }
+    70% { transform: translateX(-1px); }
+    80% { transform: translateX(1px); }
+    90% { transform: translateX(0); }
 }
 
 .ticket-printing {

@@ -31,16 +31,80 @@ class LightningMcQueenPrinter {
         printButton.addEventListener('mouseenter', () => {
             this.createButtonEffect(printButton);
         });
+
+        // Activar audio en la primera interacción del usuario
+        this.setupAudioActivation();
+    }
+
+    setupAudioActivation() {
+        const activateAudio = () => {
+            if (this.audioContext && this.audioContext.state === 'suspended') {
+                this.audioContext.resume().then(() => {
+                    console.log('🎵 Audio activado correctamente');
+                });
+            }
+        };
+
+        // Activar audio en cualquier interacción del usuario
+        document.addEventListener('click', activateAudio, { once: true });
+        document.addEventListener('keydown', activateAudio, { once: true });
+        document.addEventListener('touchstart', activateAudio, { once: true });
     }
 
     setupAudio() {
-        // Crear elementos de audio para efectos sonoros
-        this.printSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
-        this.ticketSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFS4HO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIG2m98OScTgwOUarm7blmGgU7k9n1unEiBC13yO/eizEIHWq+8+OWT');
+        // Crear elementos de audio para efectos sonoros usando Web Audio API
+        this.audioContext = null;
+        this.initAudioContext();
+    }
+
+    initAudioContext() {
+        try {
+            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        } catch (e) {
+            console.log('Web Audio API no soportado');
+        }
+    }
+
+    createBeepSound(frequency = 800, duration = 200, type = 'sine') {
+        if (!this.audioContext) {
+            this.initAudioContext();
+        }
         
-        // Configurar audio
-        this.printSound.volume = 0.3;
-        this.ticketSound.volume = 0.2;
+        if (!this.audioContext) return;
+
+        const oscillator = this.audioContext.createOscillator();
+        const gainNode = this.audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(this.audioContext.destination);
+        
+        oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+        oscillator.type = type;
+        
+        gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration / 1000);
+        
+        oscillator.start(this.audioContext.currentTime);
+        oscillator.stop(this.audioContext.currentTime + duration / 1000);
+    }
+
+    createPrintSound() {
+        // Sonido de impresión - beep agudo
+        this.createBeepSound(1200, 150, 'square');
+        setTimeout(() => {
+            this.createBeepSound(800, 100, 'sine');
+        }, 50);
+    }
+
+    createTicketSound() {
+        // Sonido de ticket completado - melodía ascendente
+        this.createBeepSound(600, 100, 'sine');
+        setTimeout(() => {
+            this.createBeepSound(800, 100, 'sine');
+        }, 100);
+        setTimeout(() => {
+            this.createBeepSound(1000, 150, 'sine');
+        }, 200);
     }
 
     createParticles() {
@@ -88,26 +152,30 @@ class LightningMcQueenPrinter {
         // Actualizar contador
         document.getElementById('ticketCounter').textContent = this.ticketCounter;
 
+        // Generar ticket primero para saber si tiene imagen
+        const ticket = generateTicket();
+
         // Efectos visuales y sonoros
         this.playPrintSound();
         this.createPrintingEffects();
         this.updatePrinterStatus('Imprimiendo...');
+        this.createProgressBar();
+        
+        // Efecto especial si el ticket tiene imagen (durante la impresión)
+        if (ticket.decoration.type === 'image') {
+            this.createImageEffect(ticket.decoration.content);
+        }
 
-        // Simular tiempo de impresión
-        await this.delay(1500);
+        // Simular tiempo de impresión (aumentado para mejor experiencia)
+        await this.delay(2500);
 
-        // Generar ticket
-        const ticket = generateTicket();
+        // Crear el ticket
         this.createTicketElement(ticket);
 
         // Efectos finales
         this.playTicketSound();
         this.createLightningEffect();
-        
-        // Efecto especial si el ticket tiene imagen
-        if (ticket.decoration.type === 'image') {
-            this.createImageEffect(ticket.decoration.content);
-        }
+        this.removeProgressBar();
         
         this.updatePrinterStatus('Listo');
 
@@ -170,17 +238,57 @@ class LightningMcQueenPrinter {
         const printerMachine = document.querySelector('.printer-machine');
         const printButton = document.getElementById('printButton');
 
-        // Efecto de vibración
+        // Efecto de vibración más largo
         printerMachine.classList.add('printing');
         printButton.style.transform = 'scale(0.95)';
 
-        // Crear efecto de chispas
+        // Crear efecto de chispas múltiples durante la impresión
         this.createSparkEffect(printerMachine);
+        
+        // Más chispas durante el proceso
+        setTimeout(() => {
+            this.createSparkEffect(printerMachine);
+        }, 800);
+        
+        setTimeout(() => {
+            this.createSparkEffect(printerMachine);
+        }, 1600);
 
         setTimeout(() => {
             printerMachine.classList.remove('printing');
             printButton.style.transform = '';
-        }, 500);
+        }, 2500);
+    }
+
+
+
+    createProgressBar() {
+        const screen = document.querySelector('.printer-screen');
+        const progressContainer = document.createElement('div');
+        progressContainer.className = 'progress-container';
+        progressContainer.innerHTML = `
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div class="progress-text">Imprimiendo ticket...</div>
+        `;
+        
+        screen.appendChild(progressContainer);
+        
+        // Animar la barra de progreso
+        setTimeout(() => {
+            const progressFill = progressContainer.querySelector('.progress-fill');
+            if (progressFill) {
+                progressFill.style.width = '100%';
+            }
+        }, 100);
+    }
+
+    removeProgressBar() {
+        const progressContainer = document.querySelector('.progress-container');
+        if (progressContainer) {
+            progressContainer.remove();
+        }
     }
 
     createSparkEffect(container) {
@@ -223,14 +331,18 @@ class LightningMcQueenPrinter {
         const container = document.querySelector('.printer-container');
         const imageEffect = document.createElement('div');
         imageEffect.className = 'image-effect';
-        imageEffect.innerHTML = `<img src="${imageSrc}" alt="Efecto especial">`;
+        imageEffect.innerHTML = `
+            <div class="image-glow"></div>
+            <img src="${imageSrc}" alt="Efecto especial">
+        `;
         container.appendChild(imageEffect);
 
+        // La animación dura lo mismo que la impresión (2.5 segundos)
         setTimeout(() => {
             if (imageEffect.parentNode) {
                 imageEffect.parentNode.removeChild(imageEffect);
             }
-        }, 1000);
+        }, 2500);
     }
 
     createButtonEffect(button) {
@@ -320,17 +432,19 @@ class LightningMcQueenPrinter {
     }
 
     playPrintSound() {
-        if (this.printSound) {
-            this.printSound.currentTime = 0;
-            this.printSound.play().catch(e => console.log('Audio no disponible'));
+        // Activar el contexto de audio si está suspendido
+        if (this.audioContext && this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
         }
+        this.createPrintSound();
     }
 
     playTicketSound() {
-        if (this.ticketSound) {
-            this.ticketSound.currentTime = 0;
-            this.ticketSound.play().catch(e => console.log('Audio no disponible'));
+        // Activar el contexto de audio si está suspendido
+        if (this.audioContext && this.audioContext.state === 'suspended') {
+            this.audioContext.resume();
         }
+        this.createTicketSound();
     }
 
     delay(ms) {
@@ -398,14 +512,52 @@ const additionalStyles = `
         transform: translate(-50%, -50%);
         z-index: 1000;
         pointer-events: none;
-        animation: image-celebration 1s ease-out;
+        animation: image-celebration 2.5s ease-in-out;
     }
 
     .image-effect img {
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
         object-fit: contain;
-        filter: drop-shadow(0 0 20px rgba(241, 196, 15, 0.8));
+        filter: drop-shadow(0 0 25px rgba(241, 196, 15, 0.9));
+        position: relative;
+        z-index: 2;
+    }
+
+    .image-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(241, 196, 15, 0.3) 0%, transparent 70%);
+        border-radius: 50%;
+        animation: glow-pulse 2.5s ease-in-out;
+        z-index: 1;
+    }
+
+    @keyframes glow-pulse {
+        0% {
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+        }
+        20% {
+            transform: translate(-50%, -50%) scale(1.2);
+            opacity: 0.8;
+        }
+        50% {
+            transform: translate(-50%, -50%) scale(1.5);
+            opacity: 0.6;
+        }
+        80% {
+            transform: translate(-50%, -50%) scale(1.8);
+            opacity: 0.3;
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 0;
+        }
     }
 
     @keyframes image-celebration {
@@ -413,15 +565,33 @@ const additionalStyles = `
             transform: translate(-50%, -50%) scale(0) rotate(0deg);
             opacity: 0;
         }
-        50% {
-            transform: translate(-50%, -50%) scale(1.2) rotate(180deg);
+        15% {
+            transform: translate(-50%, -50%) scale(1.1) rotate(90deg);
+            opacity: 0.8;
+        }
+        30% {
+            transform: translate(-50%, -50%) scale(1.3) rotate(180deg);
             opacity: 1;
         }
+        50% {
+            transform: translate(-50%, -50%) scale(1.2) rotate(270deg);
+            opacity: 1;
+        }
+        70% {
+            transform: translate(-50%, -50%) scale(1.1) rotate(360deg);
+            opacity: 0.9;
+        }
+        85% {
+            transform: translate(-50%, -50%) scale(1.0) rotate(450deg);
+            opacity: 0.7;
+        }
         100% {
-            transform: translate(-50%, -50%) scale(0.8) rotate(360deg);
+            transform: translate(-50%, -50%) scale(0.8) rotate(540deg);
             opacity: 0;
         }
     }
+
+
 `;
 
 // Inyectar estilos adicionales
