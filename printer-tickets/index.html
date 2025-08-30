@@ -27,30 +27,6 @@
         </nav>
     </header>
 
-    <!-- Sección de GitHub Sync -->
-    <section class="github-auth-section">
-        <div class="container">
-            <h3><i class="fab fa-github"></i> Sincronización con GitHub</h3>
-            <p>Conecta tu cuenta de GitHub para guardar y sincronizar tus tickets entre dispositivos. ¡Todos podrán ver los tickets generados por otros usuarios!</p>
-            
-            <div id="userInfo" class="user-info" style="display: none;"></div>
-            
-            <button id="githubAuthBtn" class="btn btn-github">
-                <i class="fab fa-github"></i> Conectar GitHub
-            </button>
-            
-            <div class="github-instructions" style="margin-top: 1rem; font-size: 0.8rem; color: #a0aec0;">
-                <p><strong>Instrucciones:</strong></p>
-                <ol style="margin-left: 1rem;">
-                    <li>Ve a GitHub.com → Settings → Developer settings → Personal access tokens</li>
-                    <li>Crea un nuevo token con permisos de "repo"</li>
-                    <li>Copia el token y pégalo aquí</li>
-                    <li>¡Disfruta de la sincronización entre dispositivos!</li>
-                </ol>
-            </div>
-        </div>
-    </section>
-
     <!-- Contenedor principal -->
     <main class="printer-container">
         <!-- Sección de la impresora -->
@@ -151,15 +127,6 @@
     <script src="js/messages.js"></script>
     <script src="js/github-sync.js"></script>
     <script src="js/printer.js"></script>
-    <script>
-        // Inicializar la impresora y GitHub Sync cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function() {
-            const printer = new LightningMcQueenPrinter();
-            const githubSync = new GitHubSync();
-            
-            // Hacer que la impresora use GitHub Sync
-            printer.setGitHubSync(githubSync);
-        });
-    </script>
+
 </body>
 </html>
