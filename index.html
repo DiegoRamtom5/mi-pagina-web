@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página Web - Pruebas de Diseño</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <h1>Mi Web</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#proyectos">Proyectos</a></li>
+                <li><a href="#diseños">Diseños</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h2 class="hero-title">Bienvenido a mi Laboratorio de Diseño</h2>
+            <p class="hero-subtitle">Aquí experimento con diferentes estilos, layouts y tecnologías web</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary">Ver Proyectos</button>
+                <button class="btn btn-secondary">Explorar Diseños</button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="floating-card card-1"></div>
+            <div class="floating-card card-2"></div>
+            <div class="floating-card card-3"></div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="proyectos" class="projects">
+        <div class="container">
+            <h2 class="section-title">Proyectos de Prueba</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="placeholder-image"></div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Diseño Moderno</h3>
+                        <p>Experimento con gradientes y animaciones CSS</p>
+                        <div class="project-tags">
+                            <span class="tag">CSS</span>
+                            <span class="tag">Animaciones</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="placeholder-image"></div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Layout Responsivo</h3>
+                        <p>Pruebas de diseño adaptable para diferentes dispositivos</p>
+                        <div class="project-tags">
+                            <span class="tag">Responsive</span>
+                            <span class="tag">Flexbox</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="placeholder-image"></div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Interactividad JS</h3>
+                        <p>Elementos dinámicos y efectos de usuario</p>
+                        <div class="project-tags">
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">UX</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Design Gallery -->
+    <section id="diseños" class="design-gallery">
+        <div class="container">
+            <h2 class="section-title">Galería de Diseños</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="design-preview design-1"></div>
+                    <h4>Paleta de Colores</h4>
+                </div>
+                <div class="gallery-item">
+                    <div class="design-preview design-2"></div>
+                    <h4>Tipografía</h4>
+                </div>
+                <div class="gallery-item">
+                    <div class="design-preview design-3"></div>
+                    <h4>Componentes</h4>
+                </div>
+                <div class="gallery-item">
+                    <div class="design-preview design-4"></div>
+                    <h4>Iconos</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contacto</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>¿Tienes alguna idea?</h3>
+                    <p>Este es mi espacio para experimentar con diseños web. Si tienes sugerencias o quieres colaborar, ¡no dudes en contactarme!</p>
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <span class="contact-icon">📧</span>
+                            <span>email@ejemplo.com</span>
+                        </div>
+                        <div class="contact-method">
+                            <span class="contact-icon">🐙</span>
+                            <span>github.com/usuario</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form>
+                        <input type="text" placeholder="Tu nombre" required>
+                        <input type="email" placeholder="Tu email" required>
+                        <textarea placeholder="Tu mensaje" rows="5" required></textarea>
+                        <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Mi Página Web. Diseñado para pruebas y experimentación.</p>
+            <div class="footer-links">
+                <a href="#inicio">Inicio</a>
+                <a href="#proyectos">Proyectos</a>
+                <a href="#diseños">Diseños</a>
+                <a href="#contacto">Contacto</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
